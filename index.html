@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- YOU ARE SMART, AREN'T YA? GOOD, because the "loginpage" is just to block unintelligent bad actors from sharing certain info. -->
+    <!-- I know it sounds dumb but its my first ever public site so even if the protection is in frontend, it matters. -->
+    <!-- Also you'd probably dont want any sensitive data to be... exposed, would you? -->
+    <!-- That out of the way, just take a look at the saucecode I guess, its nothing special anyway, just a website... in frontend. -->
 <meta charset="UTF-8">
 <title>Login</title>
 
@@ -23,9 +27,47 @@ body{
     width:300px;
 }
 
-input,button{
+input{
+    
     padding:10px;
     font-size:16px;
+    border-radius: 12px;
+    transition: 0.4s;
+    border: 0px;
+    box-shadow: 0px 0px 600px 10px rgb(0, 0, 0) initial;
+}
+input:hover{
+    padding:10px;
+    font-size:16px;
+    border-radius: 8px;
+    box-shadow: 10px 0px 0px 0px rgb(255, 200, 0), -10px 0px 0px 0px rgb(255, 200, 0), 0px 0px 0px 0px rgb(148, 33, 255);
+}
+
+button{
+    padding:10px;
+    font-size:16px;
+    border-radius: 12px;
+    transition: 0.25s;
+    width: 250px;
+    align-items: center;
+    align-self: center;
+    align-content: center;
+}
+button:hover{
+    padding:10px;
+    font-size:16px;
+    border-radius: 24px;
+    cursor: pointer;
+    width: 240px;
+    align-items: center;
+    align-self: center;
+    align-content: center;
+}
+
+hr {
+    width: 220px;
+    border-radius: 4px;
+    align-items: center;
 }
 </style>
 
@@ -35,9 +77,9 @@ input,button{
 <div class="login">
     <input id="user" placeholder="Platform (Roblox, VRChat, ...)">
 
-    <input id="pass"
-           type="password"
-           placeholder="Guild (Playduo Studio, ROLVe, etc)">
+    <input id="pass" type="password" placeholder="Guild (Playduo Studio, ROLVe, etc)">
+    <hr>
+    <input id="otcodeelem" type="password" placeholder="Use a Code (XXXX-XXXX)">
 
     <button onclick="login()">
         Login
@@ -55,12 +97,18 @@ const accounts = {
     "Global":"Developerlogin"
 };
 
+const otcodes = [
+    "HEHELOLO",
+    "1234"
+];
+
 function login(){
 
     const username=document.getElementById("user").value;
     const password=document.getElementById("pass").value;
+    const onetimecode = document.getElementById("otcodeelem").value;
 
-    if(accounts[username]===password){
+    if(accounts[username]===password || otcodes.includes(onetimecode)){
 
         sessionStorage.setItem("loggedIn","true");
         sessionStorage.setItem("username",username);
@@ -68,11 +116,8 @@ function login(){
         window.location.href="ZGFQQVVMX2hvbWUuaHRtbA==.html";
 
     }else{
-
-        document.getElementById("error").innerHTML="Incorrect username or password.";
-
+        document.getElementById("error").innerHTML="Incorrect username or password or Code! [Case Sesitive]";
     }
-
 }
 
 </script>
