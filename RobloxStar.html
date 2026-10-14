@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="en" translate="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google" content="notranslate">
+<meta http-equiv="Content-Language" content="en">
+<link rel="icon" type="x-icon" href="art/favicon2.png">
+<title>daPAUL • Star</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+body{
+    background:#240046;
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:flex-start;
+    min-height:100vh;
+}
+
+a{ color:inherit; }
+
+.container{
+    width:440px;
+    max-width:100%;
+    background:#3a0968;
+    border-radius:18px;
+    padding:30px;
+    text-align:center;
+    box-shadow:0 10px 40px rgba(0,0,0,.35);
+}
+
+h1{
+    font-size:2rem;
+    margin-bottom:8px;
+    text-shadow:#ffffff 0px 0px 10px;
+}
+
+.bio{
+    color:#cbd5e1;
+    margin-bottom:22px;
+}
+
+.layout{
+    display:flex;
+    gap:30px;
+    align-items:flex-start;
+    justify-content:center;
+    padding:40px;
+    width:100%;
+}
+
+.sidepanel{
+    width:340px;
+    background:#360861;
+    border-radius:18px;
+    padding:25px;
+    box-shadow:0 10px 40px rgba(0,0,0,.35);
+}
+
+.sidepanel.wide{ width:400px; }
+
+.sidepanel h2{
+    text-align:center;
+    margin-bottom:16px;
+    text-shadow:0 0 10px white;
+}
+
+/* ---------- forms ---------- */
+.addrow{
+    display:flex;
+    gap:8px;
+    margin-bottom:10px;
+}
+
+input[type=text], select{
+    flex:1;
+    min-width:0;
+    background:#240046;
+    color:white;
+    border:1px solid #6b19b8;
+    border-radius:10px;
+    padding:10px 12px;
+    font-size:14px;
+    outline:none;
+}
+
+input[type=text]:focus, select:focus, button:focus-visible, a:focus-visible, .switch input:focus-visible + .track{
+    outline:2px solid #dac3e8;
+    outline-offset:2px;
+}
+
+select{ flex:0 0 auto; }
+
+button, .btn{
+    background:#6411ad;
+    color:white;
+    border:none;
+    border-radius:10px;
+    padding:10px 14px;
+    font-size:14px;
+    cursor:pointer;
+    text-decoration:none;
+    transition:.25s;
+    display:inline-block;
+}
+
+button:hover, .btn:hover{
+    background:#dac3e8;
+    color:#240046;
+    transform:translateY(-2px);
+}
+
+.status{
+    min-height:18px;
+    margin-bottom:10px;
+    font-size:12px;
+    color:#837b94;
+    text-align:left;
+}
+
+.status.error{ color:#ff9db1; }
+
+.empty{
+    color:#837b94;
+    font-size:13px;
+    text-align:center;
+    padding:14px 6px;
+    line-height:1.5;
+}
+
+/* ---------- rows ---------- */
+.list{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+.row{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    background:#3a0968;
+    border-radius:12px;
+    padding:10px;
+    text-align:left;
+}
+
+.row img.thumb{
+    width:56px;
+    height:56px;
+    border-radius:10px;
+    object-fit:cover;
+    background:#240046;
+    flex:none;
+}
+
+.row img.thumb.round{ border-radius:50%; }
+
+.row .meta{
+    flex:1;
+    min-width:0;
+}
+
+.row .name{
+    font-size:15px;
+    font-weight:bold;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    text-decoration:none;
+    display:block;
+}
+
+.row .name:hover{ text-shadow:0 0 8px #a54fff; }
+
+.row .sub{
+    font-size:12px;
+    color:#cbd5e1;
+    margin-top:3px;
+}
+
+.row .actions{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+    flex:none;
+}
+
+.row .actions button{
+    padding:6px 10px;
+    font-size:12px;
+}
+
+.badge{
+    display:inline-block;
+    font-size:11px;
+    padding:2px 8px;
+    border-radius:20px;
+    background:#240046;
+    color:#cbd5e1;
+    margin-top:4px;
+}
+
+.badge.pending{
+    background:#dac3e8;
+    color:#240046;
+    font-weight:bold;
+}
+
+button.pend.on{
+    background:#dac3e8;
+    color:#240046;
+}
+
+button.del{
+    background:#240046;
+    color:#cbd5e1;
+}
+
+/* ---------- toggle switch ---------- */
+.switchwrap{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:14px;
+    margin-bottom:18px;
+    font-size:16px;
+}
+
+.switchwrap span{
+    color:#837b94;
+    transition:.25s;
+}
+
+.switchwrap span.active{
+    color:white;
+    text-shadow:0 0 10px white;
+    font-weight:bold;
+}
+
+.switch{
+    position:relative;
+    width:64px;
+    height:32px;
+    display:inline-block;
+    flex:none;
+}
+
+.switch input{
+    position:absolute;
+    opacity:0;
+    width:100%;
+    height:100%;
+    margin:0;
+    cursor:pointer;
+    z-index:2;
+}
+
+.switch .track{
+    position:absolute;
+    inset:0;
+    background:#6411ad;
+    border-radius:32px;
+    transition:.3s;
+    box-shadow:inset 0 0 8px rgba(0,0,0,.4);
+}
+
+.switch .track::after{
+    content:"";
+    position:absolute;
+    top:4px;
+    left:4px;
+    width:24px;
+    height:24px;
+    border-radius:50%;
+    background:white;
+    transition:.3s;
+    box-shadow:0 0 10px #a54fff;
+}
+
+.switch input:checked + .track::after{ left:36px; }
+
+/* ---------- clothing ---------- */
+.creator{
+    background:#3a0968;
+    border-radius:12px;
+    padding:12px;
+    margin-bottom:14px;
+}
+
+.creator .head{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:10px;
+}
+
+.creator .head img{
+    width:44px;
+    height:44px;
+    border-radius:10px;
+    object-fit:cover;
+    background:#240046;
+}
+
+.creator .head img.round{ border-radius:50%; }
+
+.creator .head .meta{
+    flex:1;
+    min-width:0;
+    text-align:left;
+}
+
+.creator .head .meta a{
+    font-weight:bold;
+    text-decoration:none;
+    display:block;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.creator .head .meta small{ color:#cbd5e1; font-size:12px; }
+
+.items{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:8px;
+}
+
+.item{
+    text-decoration:none;
+    text-align:left;
+    background:#360861;
+    border-radius:10px;
+    padding:6px;
+    transition:.25s;
+    min-width:0;
+}
+
+.item:hover{
+    transform:scale(1.04);
+    box-shadow:0 0 15px #a54fff;
+}
+
+.item img{
+    width:100%;
+    aspect-ratio:1;
+    object-fit:cover;
+    border-radius:8px;
+    background:#240046;
+    display:block;
+}
+
+.item .iname{
+    font-size:11px;
+    margin-top:5px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.item .iprice{
+    font-size:11px;
+    color:#cbd5e1;
+}
+
+.switchwrap.small{
+    font-size:14px;
+    gap:10px;
+    margin-bottom:14px;
+}
+
+.row .actions .btn{
+    padding:6px 10px;
+    font-size:12px;
+    text-align:center;
+}
+
+/* collapsible clothing creators */
+.creator .head{ margin-bottom:0; }
+
+.ctoggle{
+    flex:1;
+    min-width:0;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    background:transparent;
+    color:white;
+    padding:0;
+    text-align:left;
+    border-radius:10px;
+}
+
+.ctoggle:hover{
+    background:transparent;
+    color:white;
+    transform:none;
+}
+
+.ctoggle:hover .cname{ text-shadow:0 0 8px #a54fff; }
+
+.ctoggle .meta{ flex:1; min-width:0; }
+
+.ctoggle .cname{
+    display:block;
+    font-weight:bold;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.ctoggle .chev{
+    flex:none;
+    font-size:16px;
+    color:#cbd5e1;
+    padding-right:4px;
+}
+
+.creator .head .btn, .creator .head button.del{
+    padding:6px 10px;
+    font-size:12px;
+    flex:none;
+}
+
+.items{ margin-top:10px; }
+.items[hidden]{ display:none; }
+
+
+.hint{
+    color:#837b94;
+    font-size:12px;
+    line-height:1.5;
+    margin-top:14px;
+    text-align:left;
+}
+
+footer{
+    margin-top:25px;
+    color:#837b94;
+    font-size:14px;
+}
+
+footer a{ text-decoration:none; }
+footer a:hover{ color:white; }
+
+@media (max-width:1300px){
+    .layout{
+        flex-direction:column;
+        align-items:center;
+    }
+    .sidepanel, .sidepanel.wide{
+        width:440px;
+        max-width:90%;
+    }
+    .container{ max-width:90%; }
+}
+
+@media (prefers-reduced-motion:reduce){
+    *{ transition:none !important; }
+}
+</style>
+</head>
+<body>
+
+<div class="layout">
+
+    <!-- LEFT PANEL: STARRED USERS -->
+    <aside class="sidepanel">
+        <h2>⭐ Starred Users</h2>
+
+        <div class="switchwrap small">
+            <span id="lblIn" class="active">Inbound</span>
+            <label class="switch" title="Switch between inbound and outbound requests">
+                <input type="checkbox" id="userSwitch" aria-label="Toggle between inbound requests (left) and outbound requests (right)">
+                <div class="track"></div>
+            </label>
+            <span id="lblOut">Outbound</span>
+        </div>
+
+        <div class="addrow">
+            <input type="text" id="userInput" placeholder="Username, ID or profile link" aria-label="Add a user">
+            <button id="userAdd">Star</button>
+        </div>
+        <div class="status" id="userStatus"></div>
+        <div class="list" id="userList"></div>
+        <p class="hint" id="userHint"></p>
+    </aside>
+
+    <!-- CENTER: FAVORITES -->
+    <div class="container">
+        <h1>Roblox Hub</h1>
+        <p class="bio">Favorites • Games / Groups</p>
+
+        <div class="switchwrap">
+            <span id="lblGames" class="active">Games</span>
+            <label class="switch" title="Switch between Games and Groups">
+                <input type="checkbox" id="favSwitch" aria-label="Toggle between favorite Games (left) and Groups (right)">
+                <div class="track"></div>
+            </label>
+            <span id="lblGroups">Groups</span>
+        </div>
+
+        <div class="addrow">
+            <input type="text" id="favInput" placeholder="Game link or place ID" aria-label="Add a favorite">
+            <button id="favAdd">Add</button>
+        </div>
+        <div class="status" id="favStatus"></div>
+        <div class="list" id="favList"></div>
+
+        <footer>
+            <a href="index.html">← Back to home</a>
+        </footer>
+    </div>
+
+    <!-- RIGHT PANEL: CLOTHING CREATORS -->
+    <aside class="sidepanel wide">
+        <h2>👕 Starred Clothing</h2>
+        <div class="addrow">
+            <select id="crType" aria-label="Creator type">
+                <option value="User">User</option>
+                <option value="Group">Group</option>
+            </select>
+            <input type="text" id="crInput" placeholder="Username, ID or link" aria-label="Add a clothing creator">
+            <button id="crAdd">Star</button>
+        </div>
+        <div class="status" id="crStatus"></div>
+        <div id="crList"></div>
+        <p class="hint">Click a creator to load their 6 newest clothing items. Items are only requested from Roblox when you expand a creator. Sorted by most recently updated.</p>
+    </aside>
+
+</div>
+
+<script>
+/* =========================================================
+   Roblox API access
+   ---------------------------------------------------------
+   Roblox blocks direct browser requests (CORS), so every call
+   goes through a public proxy. roproxy is tried first,
+   rotunnel is used as a fallback. Add/remove hosts here.
+   ========================================================= */
+const PROXY_HOSTS = ["roproxy.com", "rotunnel.com"];
+
+/* Roblox localizes names (game titles etc.) using the browser's language.
+   Force English on every request so the browser's own language is never sent. */
+function withEnglish(opts = {}){
+    return {
+        ...opts,
+        headers:{ ...(opts.headers || {}), "Accept-Language":"en-US,en;q=0.9" }
+    };
+}
+
+async function rbx(sub, path, opts){
+    let lastErr;
+    for(const host of PROXY_HOSTS){
+        try{
+            const res = await fetch(`https://${sub}.${host}${path}`, withEnglish(opts));
+            if(res.ok) return await res.json();
+            lastErr = new Error(`HTTP ${res.status}`);
+            if(res.status === 400 || res.status === 404) throw lastErr; // real answer, don't retry
+        }catch(e){
+            lastErr = e;
+            if(String(e.message).startsWith("HTTP 4")) throw e;
+        }
+    }
+    throw lastErr || new Error("Request failed");
+}
+
+const postJSON = body => ({
+    method:"POST",
+    headers:{ "Content-Type":"application/json" },
+    body:JSON.stringify(body)
+});
+
+/* ---------- storage (stays in this browser only) ---------- */
+const KEY = "daPAUL_roblox_hub_v1";
+const state = Object.assign(
+    { users:[], games:[], groups:[], creators:[], tab:"games", userTab:"inbound" },
+    (()=>{ try{ return JSON.parse(localStorage.getItem(KEY)) || {}; }catch{ return {}; } })()
+);
+state.users.forEach(u => { if(!u.dir) u.dir = "outbound"; if(typeof u.done !== "boolean") u.done = false; });
+const save = () => { try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch{} };
+
+/* ---------- helpers ---------- */
+const $ = s => document.querySelector(s);
+const fmt = n => (n ?? 0).toLocaleString("en-US");
+
+function el(tag, props = {}, ...kids){
+    const e = document.createElement(tag);
+    for(const [k,v] of Object.entries(props)){
+        if(k === "class") e.className = v;
+        else if(k === "text") e.textContent = v;
+        else if(k.startsWith("on")) e.addEventListener(k.slice(2), v);
+        else e.setAttribute(k, v);
+    }
+    kids.flat().forEach(c => c != null && e.append(c));
+    return e;
+}
+
+function setStatus(id, msg, isError){
+    const s = $(id);
+    s.textContent = msg || "";
+    s.classList.toggle("error", !!isError);
+}
+
+const lastNumber = str => { const m = String(str).match(/\d{2,}/); return m ? m[0] : null; };
+
+/* ---------- thumbnails ---------- */
+const thumbCache = {};
+async function thumbs(kind, ids, size){
+    const out = {};
+    const need = [];
+    ids.forEach(id => {
+        const k = kind + id;
+        if(thumbCache[k]) out[id] = thumbCache[k]; else need.push(id);
+    });
+    const routes = {
+        user:  id => `/v1/users/avatar-headshot?userIds=${id}&size=${size}&format=Png`,
+        game:  id => `/v1/games/icons?universeIds=${id}&size=${size}&format=Png`,
+        group: id => `/v1/groups/icons?groupIds=${id}&size=${size}&format=Png`,
+        asset: id => `/v1/assets?assetIds=${id}&size=${size}&format=Png`
+    };
+    for(let i = 0; i < need.length; i += 50){
+        const chunk = need.slice(i, i + 50);
+        try{
+            const r = await rbx("thumbnails", routes[kind](chunk.join(",")));
+            (r.data || []).forEach(t => {
+                if(t.imageUrl){
+                    thumbCache[kind + t.targetId] = t.imageUrl;
+                    out[t.targetId] = t.imageUrl;
+                }
+            });
+        }catch{}
+    }
+    return out;
+}
+
+/* =========================================================
+   STARRED USERS
+   ========================================================= */
+async function resolveUser(input){
+    const clean = input.trim().replace(/^@/, "");
+    if(!clean) throw new Error("Enter a username, ID or profile link.");
+    const idMatch = clean.match(/users\/(\d+)/) || clean.match(/^(\d+)$/);
+    if(idMatch){
+        const u = await rbx("users", `/v1/users/${idMatch[1]}`);
+        return { id:u.id, name:u.name, displayName:u.displayName };
+    }
+    const r = await rbx("users", "/v1/usernames/users", postJSON({ usernames:[clean], excludeBannedUsers:false }));
+    if(!r.data || !r.data.length) throw new Error(`No user found called "${clean}".`);
+    const u = r.data[0];
+    return { id:u.id, name:u.name, displayName:u.displayName };
+}
+
+const USER_TEXT = {
+    inbound:{
+        placeholder:"User who sent you a request",
+        hint:"Star people who sent you a friend request. Use Open requests to accept or decline on Roblox, then mark it handled.",
+        open:"Open requests",
+        href:() => "https://www.roblox.com/users/friends#!/friend-requests",
+        todo:"Needs response", done:"Handled", doBtn:"Mark handled",
+        empty:"No inbound requests starred yet. Add the username of someone who sent you a friend request."
+    },
+    outbound:{
+        placeholder:"User you want to add",
+        hint:"Star people you want to friend. Use Open profile to send the request on Roblox, then mark it accepted once they reply.",
+        open:"Open profile",
+        href:u => `https://www.roblox.com/users/${u.id}/profile`,
+        todo:"Waiting for reply", done:"Accepted", doBtn:"Mark accepted",
+        empty:"No outbound requests starred yet. Add someone you want to send a friend request to."
+    }
+};
+
+function updateUserSwitchUI(){
+    const out = state.userTab === "outbound";
+    const open = d => state.users.filter(u => u.dir === d && !u.done).length;
+    $("#userSwitch").checked = out;
+    $("#lblIn").textContent = `Inbound (${open("inbound")})`;
+    $("#lblOut").textContent = `Outbound (${open("outbound")})`;
+    $("#lblIn").classList.toggle("active", !out);
+    $("#lblOut").classList.toggle("active", out);
+    const t = USER_TEXT[state.userTab];
+    $("#userInput").placeholder = t.placeholder;
+    $("#userHint").textContent = t.hint;
+}
+
+async function addUser(){
+    const input = $("#userInput");
+    const dir = state.userTab;
+    setStatus("#userStatus", "Looking up user…");
+    try{
+        const u = await resolveUser(input.value);
+        if(state.users.some(x => x.id === u.id && x.dir === dir)){
+            setStatus("#userStatus", `${u.displayName} is already in your ${dir} list.`, true);
+            return;
+        }
+        state.users.unshift({ ...u, dir, done:false });
+        save();
+        input.value = "";
+        setStatus("#userStatus", `Starred ${u.displayName} (${dir}).`);
+        renderUsers();
+    }catch(e){
+        setStatus("#userStatus", e.message.startsWith("HTTP") ? "Couldn't reach Roblox. Try again in a moment." : e.message, true);
+    }
+}
+
+async function refreshUserNames(){
+    if(!state.users.length) return;
+    try{
+        const ids = [...new Set(state.users.map(u => u.id))];
+        const r = await rbx("users", "/v1/users", postJSON({ userIds:ids, excludeBannedUsers:false }));
+        (r.data || []).forEach(d => {
+            state.users.filter(x => x.id === d.id).forEach(u => { u.name = d.name; u.displayName = d.displayName; });
+        });
+        save();
+        renderUsers();
+    }catch{}
+}
+
+async function renderUsers(){
+    updateUserSwitchUI();
+    const t = USER_TEXT[state.userTab];
+    const list = $("#userList");
+    const users = state.users.filter(u => u.dir === state.userTab);
+    list.replaceChildren();
+    if(!users.length){
+        list.append(el("div", { class:"empty", text:t.empty }));
+        return;
+    }
+    const imgs = await thumbs("user", [...new Set(users.map(u => u.id))], "150x150");
+    // the tab may have changed while thumbnails were loading
+    if(users[0].dir !== state.userTab) return;
+    list.replaceChildren();
+    users.forEach(u => {
+        const doneBtn = el("button", {
+            class:"pend" + (u.done ? " on" : ""),
+            text:u.done ? "Undo" : t.doBtn,
+            onclick:() => { u.done = !u.done; save(); renderUsers(); }
+        });
+        const delBtn = el("button", {
+            class:"del", text:"Remove", "aria-label":`Remove ${u.displayName}`,
+            onclick:() => { state.users = state.users.filter(x => x !== u); save(); renderUsers(); }
+        });
+        list.append(
+            el("div", { class:"row" },
+                el("img", { class:"thumb round", src:imgs[u.id] || "", alt:"", loading:"lazy" }),
+                el("div", { class:"meta" },
+                    el("a", { class:"name", href:`https://www.roblox.com/users/${u.id}/profile`, target:"_blank", rel:"noopener", text:u.displayName }),
+                    el("div", { class:"sub", text:`@${u.name}` }),
+                    el("span", { class:"badge" + (u.done ? "" : " pending"), text:u.done ? t.done : t.todo })
+                ),
+                el("div", { class:"actions" },
+                    el("a", { class:"btn", href:t.href(u), target:"_blank", rel:"noopener", text:t.open }),
+                    doneBtn, delBtn
+                )
+            )
+        );
+    });
+}
+
+/* =========================================================
+   FAVORITES (GAMES / GROUPS)
+   ========================================================= */
+function updateSwitchUI(){
+    const isGroups = state.tab === "groups";
+    $("#favSwitch").checked = isGroups;
+    $("#lblGames").classList.toggle("active", !isGroups);
+    $("#lblGroups").classList.toggle("active", isGroups);
+    $("#favInput").placeholder = isGroups ? "Group link or ID" : "Game link or place ID";
+    setStatus("#favStatus", "");
+}
+
+async function addFav(){
+    const input = $("#favInput");
+    const id = lastNumber(input.value);
+    if(!id){ setStatus("#favStatus", "Paste a Roblox link or a numeric ID.", true); return; }
+    setStatus("#favStatus", "Looking it up…");
+    try{
+        if(state.tab === "games"){
+            const u = await rbx("apis", `/universes/v1/places/${id}/universe`);
+            if(!u.universeId) throw new Error("That place ID doesn't exist.");
+            if(state.games.some(g => g.universeId === u.universeId)){
+                setStatus("#favStatus", "That game is already in your favorites.", true); return;
+            }
+            state.games.unshift({ placeId:id, universeId:u.universeId });
+        }else{
+            const g = await rbx("groups", `/v1/groups/${id}`);
+            if(state.groups.some(x => x.id === g.id)){
+                setStatus("#favStatus", "That group is already in your favorites.", true); return;
+            }
+            state.groups.unshift({ id:g.id });
+        }
+        save();
+        input.value = "";
+        setStatus("#favStatus", "Added to favorites.");
+        renderFavs();
+    }catch(e){
+        setStatus("#favStatus", e.message.startsWith("HTTP") ? "Couldn't find that one. Check the ID and try again." : e.message, true);
+    }
+}
+
+async function renderFavs(){
+    const list = $("#favList");
+    list.replaceChildren();
+    if(state.tab === "games"){
+        if(!state.games.length){
+            list.append(el("div", { class:"empty", text:"No favorite games yet. Paste a game link or place ID above." }));
+            return;
+        }
+        const uids = state.games.map(g => g.universeId);
+        let info = {};
+        try{
+            const r = await rbx("games", `/v1/games?universeIds=${uids.join(",")}`);
+            (r.data || []).forEach(d => info[d.id] = d);
+        }catch{ setStatus("#favStatus", "Couldn't load live game info right now.", true); }
+        const imgs = await thumbs("game", uids, "150x150");
+        list.replaceChildren();
+        state.games.forEach(g => {
+            const d = info[g.universeId];
+            list.append(favRow({
+                href:`https://www.roblox.com/games/${g.placeId}`,
+                img:imgs[g.universeId],
+                name:d ? d.name : `Game ${g.placeId}`,
+                sub:d ? `🟢 ${fmt(d.playing)} playing • 👁 ${fmt(d.visits)} visits` : "Info unavailable",
+                remove:() => { state.games = state.games.filter(x => x.universeId !== g.universeId); save(); renderFavs(); }
+            }));
+        });
+    }else{
+        if(!state.groups.length){
+            list.append(el("div", { class:"empty", text:"No favorite groups yet. Paste a group link or ID above." }));
+            return;
+        }
+        const ids = state.groups.map(g => g.id);
+        const details = await Promise.all(ids.map(id => rbx("groups", `/v1/groups/${id}`).catch(() => null)));
+        const imgs = await thumbs("group", ids, "150x150");
+        list.replaceChildren();
+        state.groups.forEach((g, i) => {
+            const d = details[i];
+            list.append(favRow({
+                href:`https://www.roblox.com/communities/${g.id}`,
+                img:imgs[g.id],
+                name:d ? d.name : `Group ${g.id}`,
+                sub:d ? `👥 ${fmt(d.memberCount)} members` + (d.owner ? ` • ${d.owner.displayName || d.owner.username}` : "") : "Info unavailable",
+                remove:() => { state.groups = state.groups.filter(x => x.id !== g.id); save(); renderFavs(); }
+            }));
+        });
+    }
+}
+
+function favRow({ href, img, name, sub, remove }){
+    return el("div", { class:"row" },
+        el("img", { class:"thumb", src:img || "", alt:"", loading:"lazy" }),
+        el("div", { class:"meta" },
+            el("a", { class:"name", href, target:"_blank", rel:"noopener", text:name }),
+            el("div", { class:"sub", text:sub })
+        ),
+        el("div", { class:"actions" },
+            el("button", { class:"del", text:"Remove", "aria-label":`Remove ${name}`, onclick:remove })
+        )
+    );
+}
+
+/* =========================================================
+   STARRED CLOTHING CREATORS
+   ========================================================= */
+function creatorHref(c){
+    return c.type === "Group"
+        ? `https://www.roblox.com/communities/${c.id}`
+        : `https://www.roblox.com/users/${c.id}/profile`;
+}
+
+function syncCreatorsEmpty(){
+    const wrap = $("#crList");
+    const empty = wrap.querySelector(".empty");
+    if(!state.creators.length && !empty){
+        wrap.append(el("div", { class:"empty", text:"No starred clothing creators yet. Add a user or group above, then click them to see their newest items." }));
+    }else if(state.creators.length && empty){
+        empty.remove();
+    }
+}
+
+/* Builds a collapsed card. No catalog request is made here. */
+function createCreatorCard(c){
+    const isGroup = c.type === "Group";
+    const img = el("img", { class:isGroup ? "" : "round", alt:"", loading:"lazy" });
+    const chev = el("span", { class:"chev", text:"▸", "aria-hidden":"true" });
+    const itemsBox = el("div", { class:"items", id:`items-${c.type}-${c.id}`, hidden:"" });
+    let loaded = false;
+
+    const toggle = el("button", {
+        class:"ctoggle", "aria-expanded":"false", "aria-controls":itemsBox.id,
+        title:"Click to show or hide the newest items"
+    },
+        img,
+        el("div", { class:"meta" },
+            el("span", { class:"cname", text:c.name }),
+            el("small", { text:isGroup ? "Group" : "User" })
+        ),
+        chev
+    );
+
+    toggle.addEventListener("click", async () => {
+        const wasOpen = toggle.getAttribute("aria-expanded") === "true";
+        toggle.setAttribute("aria-expanded", String(!wasOpen));
+        itemsBox.hidden = wasOpen;
+        chev.textContent = wasOpen ? "▸" : "▾";
+        if(!wasOpen && !loaded){
+            loaded = true;
+            const ok = await loadCreatorItems(c, itemsBox);
+            if(!ok) loaded = false; // allow retry on next expand
+        }
+    });
+
+    const card = el("div", { class:"creator" },
+        el("div", { class:"head" },
+            toggle,
+            el("a", { class:"btn", href:creatorHref(c), target:"_blank", rel:"noopener", text:"Open", "aria-label":`Open ${c.name} on Roblox` }),
+            el("button", {
+                class:"del", text:"Remove", "aria-label":`Remove ${c.name}`,
+                onclick:() => {
+                    state.creators = state.creators.filter(x => !(x.type === c.type && x.id === c.id));
+                    save();
+                    card.remove();
+                    syncCreatorsEmpty();
+                }
+            })
+        ),
+        itemsBox
+    );
+    return { card, img, c };
+}
+
+async function loadCreatorAvatars(entries){
+    for(const kind of ["user", "group"]){
+        const group = entries.filter(e => (e.c.type === "Group") === (kind === "group"));
+        if(!group.length) continue;
+        const m = await thumbs(kind, group.map(e => e.c.id), "150x150");
+        group.forEach(e => { if(m[e.c.id]) e.img.src = m[e.c.id]; });
+    }
+}
+
+function renderCreators(){
+    const wrap = $("#crList");
+    wrap.replaceChildren();
+    const entries = state.creators.map(createCreatorCard);
+    entries.forEach(e => wrap.append(e.card));
+    syncCreatorsEmpty();
+    loadCreatorAvatars(entries);
+}
+
+/* Only runs when a creator is expanded. */
+async function loadCreatorItems(c, box){
+    box.replaceChildren(el("div", { class:"empty", style:"grid-column:1/-1", text:"Loading items…" }));
+    try{
+        const r = await rbx("catalog",
+            `/v1/search/items/details?Category=3&CreatorTargetId=${c.id}&CreatorType=${c.type}&SortType=3&Limit=30`);
+        const items = (r.data || []).slice(0, 6);
+        box.replaceChildren();
+        if(!items.length){
+            box.append(el("div", { class:"empty", style:"grid-column:1/-1", text:"No clothing found for this creator." }));
+            return true;
+        }
+        const imgs = await thumbs("asset", items.map(i => i.id), "150x150");
+        items.forEach(it => {
+            const price = it.priceStatus ? it.priceStatus : (it.price != null ? `R$ ${fmt(it.price)}` : "—");
+            box.append(
+                el("a", { class:"item", href:`https://www.roblox.com/catalog/${it.id}`, target:"_blank", rel:"noopener", title:it.name },
+                    el("img", { src:imgs[it.id] || "", alt:it.name, loading:"lazy" }),
+                    el("div", { class:"iname", text:it.name }),
+                    el("div", { class:"iprice", text:price })
+                )
+            );
+        });
+        return true;
+    }catch{
+        box.replaceChildren(el("div", { class:"empty", style:"grid-column:1/-1", text:"Couldn't load items right now. Collapse and expand to try again." }));
+        return false;
+    }
+}
+
+async function addCreator(){
+    const type = $("#crType").value;
+    const input = $("#crInput");
+    setStatus("#crStatus", "Looking up creator…");
+    try{
+        let c;
+        if(type === "User"){
+            const u = await resolveUser(input.value);
+            c = { type, id:u.id, name:u.displayName };
+        }else{
+            const id = lastNumber(input.value);
+            if(!id) throw new Error("Paste a group link or numeric ID.");
+            const g = await rbx("groups", `/v1/groups/${id}`);
+            c = { type, id:g.id, name:g.name };
+        }
+        if(state.creators.some(x => x.type === c.type && x.id === c.id)){
+            setStatus("#crStatus", `${c.name} is already starred.`, true); return;
+        }
+        state.creators.unshift(c);
+        save();
+        input.value = "";
+        setStatus("#crStatus", `Starred ${c.name}. Click them to load their items.`);
+        const entry = createCreatorCard(c);
+        $("#crList").prepend(entry.card);
+        syncCreatorsEmpty();
+        loadCreatorAvatars([entry]);
+    }catch(e){
+        setStatus("#crStatus", e.message.startsWith("HTTP") ? "Couldn't find that creator." : e.message, true);
+    }
+}
+
+/* =========================================================
+   WIRING
+   ========================================================= */
+$("#userAdd").addEventListener("click", addUser);
+$("#userInput").addEventListener("keydown", e => { if(e.key === "Enter") addUser(); });
+
+$("#userSwitch").addEventListener("change", e => {
+    state.userTab = e.target.checked ? "outbound" : "inbound";
+    save();
+    setStatus("#userStatus", "");
+    renderUsers();
+});
+
+$("#favAdd").addEventListener("click", addFav);
+$("#favInput").addEventListener("keydown", e => { if(e.key === "Enter") addFav(); });
+$("#favSwitch").addEventListener("change", e => {
+    state.tab = e.target.checked ? "groups" : "games";
+    save();
+    updateSwitchUI();
+    renderFavs();
+});
+
+$("#crAdd").addEventListener("click", addCreator);
+$("#crInput").addEventListener("keydown", e => { if(e.key === "Enter") addCreator(); });
+
+updateSwitchUI();
+renderUsers();
+refreshUserNames();
+renderFavs();
+renderCreators();
+</script>
+
+</body>
+</html>
